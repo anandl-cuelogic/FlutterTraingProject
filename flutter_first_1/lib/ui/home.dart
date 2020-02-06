@@ -19,8 +19,23 @@ class ScaffoldExample extends StatelessWidget {
           IconButton(icon: Icon(Icons.access_alarm),onPressed:_tabButton)
         ],
       ),
- body: Center(
-     child: Text("Hello again"),
+ backgroundColor: Colors.redAccent.shade100,
+
+ body: Container(
+     alignment: Alignment.center,
+     child: Column(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: <Widget>[
+         InkWell(
+           child: Text(
+             "Tap me!",
+             style: TextStyle(fontSize: 30.45)),
+
+             onTap:() => debugPrint("tapped..."),
+           ),
+
+       ],
+     )
  ),
     );
   }
