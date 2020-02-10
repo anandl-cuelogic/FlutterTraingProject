@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 
-
 class ScaffoldExample extends StatelessWidget {
-  _tabButton(){
+  _tabButton() {
     debugPrint("Something is priniting");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,47 +13,56 @@ class ScaffoldExample extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.amberAccent,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.edit),onPressed:() => debugPrint("EDIT Tapped") ),
-          IconButton(icon: Icon(Icons.access_alarm),onPressed:_tabButton)
+          IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => debugPrint("EDIT Tapped")),
+          IconButton(icon: Icon(Icons.access_alarm), onPressed: _tabButton)
         ],
       ),
- backgroundColor: Colors.redAccent.shade100,
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(icon:  Icon(Icons.account_circle), title: Text("First")),
+        BottomNavigationBarItem(icon: Icon(Icons.ac_unit), title: Text("Second")),
+        BottomNavigationBarItem(icon: Icon(Icons.access_alarm), title: Text("Third"))
+      ], onTap: (int index) => debugPrint("Tapped item : $index"),),
 
- body: Container(
-     alignment: Alignment.center,
-     child: Column(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: <Widget>[
-         InkWell(
-           child: Text(
-             "Tap me!",
-             style: TextStyle(fontSize: 30.45)),
+     floatingActionButton: FloatingActionButton(
+       backgroundColor: Colors.lightGreen,
+       child: Icon(Icons.edit),
+       onPressed: () => debugPrint("Hello"),
+     ),
 
-             onTap:() => debugPrint("tapped..."),
-           ),
-
-       ],
-     )
- ),
-    );
-  }
-}
-
-
-class HomeApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.green,
-      child: Center(
-          child: Text(
-            "Hello, This is my first program",
-            textDirection: TextDirection.ltr,
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 25.05,
-                fontStyle: FontStyle.italic),
+      backgroundColor: Colors.redAccent.shade100,
+      body: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomButton()
+            ],
           )),
     );
   }
 }
+
+class CustomButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        final snackBar = SnackBar(
+          content: Text("Hi My Name is Anand"),
+          backgroundColor: Colors.amberAccent.shade700,
+        );
+
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
+      child: Container(
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+            color: Colors.pinkAccent, borderRadius: BorderRadius.circular(8.0)),
+        child: Text("Click me"),
+      ),
+    );
+  }
+}
+
