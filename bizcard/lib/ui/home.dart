@@ -1,5 +1,55 @@
 import 'package:flutter/material.dart';
 
+class BillSplitter extends StatefulWidget {
+  @override
+  _BillSplitterState createState() => _BillSplitterState();
+}
+
+class _BillSplitterState extends State<BillSplitter> {
+  int _tipPercentage = 0;
+  int _personCounter = 0;
+  double _billAmount = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
+        alignment: Alignment.center,
+        color: Colors.white,
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          padding: EdgeInsets.all(20.5),
+          children: <Widget>[
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                  color: Colors.purpleAccent.shade100,
+                  borderRadius: BorderRadius.circular(12.0)),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[Text("Total Person"), Text("\$125")],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              padding: EdgeInsets.all(12.0),
+              decoration: Bp,
+              child: Column(
+                children: <Widget>[],
+
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class Wisdom extends StatefulWidget {
   @override
   _WisdomState createState() => _WisdomState();
@@ -34,13 +84,13 @@ class _WisdomState extends State<Wisdom> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(14.5),
                     ),
-                    child: Center(child: Text(quotes[_index % quotes.length],
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 16.25
-                    ),
-
+                    child: Center(
+                        child: Text(
+                      quotes[_index % quotes.length],
+                      style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 16.25),
                     ))),
               ),
             ),
