@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 
+
+
+
+
 class ScaffoldExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -85,7 +89,6 @@ class BizCard extends StatelessWidget {
     return Container (
       width: 100,
       height: 100,
-
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(50.0)) ,
