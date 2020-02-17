@@ -1,5 +1,111 @@
+import 'package:bizcard/model/question.dart';
 import 'package:bizcard/util/hexcolor.dart';
 import 'package:flutter/material.dart';
+
+class QuizApp extends StatefulWidget {
+  @override
+  _QuizAppState createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+  List questionBank = [
+    Question.name("The National fruit of India is Mango", true),
+    Question.name("The National Sport of India is Hockey.", true),
+    Question.name(
+        "martya Sen was awarded the Nobel prize for his contribution to Welfare Economics.",
+        false),
+    Question.name(
+        "William Hewlett and David Packard set up a small company called apple.",
+        false),
+    Question.name(
+        "Earth Rotation is also called annual motion of the earth?", true),
+    Question.name(
+        "Sachin Tendulkar has not played a single International T20 match for India",
+        true),
+    Question.name(
+        "There are 4 sessions of the Parliament each year: Spring, Summer, Autumn and Winter",
+        true),
+    Question.name(
+        "The Captain Roop Singh stadium is named after a former Indian cricketer.",
+        false),
+    Question.name("The Mahabharata is a part of The Bhagavad Gita.", true)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("True Citizen"),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
+      ),
+      backgroundColor: Colors.blueGrey,
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Image.asset(
+                "images/flag.png",
+                width: 250,
+                height: 180,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(14.4),
+                    border: Border.all(
+                        color: Colors.blueGrey.shade400,
+                        style: BorderStyle.solid)),
+                height: 120.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Center(
+                      child: Text(
+                    questionBank[2].questionText,
+                    style: TextStyle(fontSize: 16.9, color: Colors.white),
+                  )),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () => _checkAnswer(),
+                  color: Colors.blueGrey.shade900,
+                  child: Text(
+                    "TRUE",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () => _checkAnswer(),
+                  color: Colors.blueGrey.shade900,
+                  child: Text(
+                    "FALSE",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () => _checkAnswer(),
+                  color: Colors.blueGrey.shade900,
+                  child:Icon(Icons.arrow_forward, color: Colors.white,),
+                )
+              ],
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+_checkAnswer() {}
 
 class BillSplitter extends StatefulWidget {
   @override
@@ -165,7 +271,7 @@ class _BillSplitterState extends State<BillSplitter> {
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Text(
-                          " \$ ${calculateTotalTip(_billAmount,_personCounter,_tipPercentage).toStringAsFixed(2)}",
+                          " \$ ${calculateTotalTip(_billAmount, _personCounter, _tipPercentage).toStringAsFixed(2)}",
                           style: TextStyle(
                               color: _purple,
                               fontWeight: FontWeight.bold,
@@ -205,18 +311,20 @@ class _BillSplitterState extends State<BillSplitter> {
         ),
       ),
     );
-
-
   }
+
   calculateTotalPerPerson(double billAmount, int splitBy, int tipPercentage) {
-    var totalPerPerson =  (calculateTotalTip(billAmount, splitBy,tipPercentage) + billAmount)/splitBy;
+    var totalPerPerson =
+        (calculateTotalTip(billAmount, splitBy, tipPercentage) + billAmount) /
+            splitBy;
     return totalPerPerson.toStringAsFixed(2);
-
   }
+
   calculateTotalTip(double billAmountm, int splitBy, int tipPercentage) {
     double totalTip = 0.0;
-    if(billAmountm < 0 || billAmountm.toString().isEmpty || billAmountm == null) {
-
+    if (billAmountm < 0 ||
+        billAmountm.toString().isEmpty ||
+        billAmountm == null) {
     } else {
       totalTip = (billAmountm * tipPercentage) / 100;
     }
@@ -287,7 +395,6 @@ class _WisdomState extends State<Wisdom> {
         ),
       ),
     );
-
   }
 
   void _showQuote() {
