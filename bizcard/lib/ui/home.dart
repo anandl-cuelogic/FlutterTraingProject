@@ -8,6 +8,7 @@ class QuizApp extends StatefulWidget {
 }
 
 class _QuizAppState extends State<QuizApp> {
+  int _currentQuestionIndex = 0;
   List questionBank = [
     Question.name("The National fruit of India is Mango", true),
     Question.name("The National Sport of India is Hockey.", true),
@@ -40,72 +41,111 @@ class _QuizAppState extends State<QuizApp> {
         backgroundColor: Colors.blueGrey,
       ),
       backgroundColor: Colors.blueGrey,
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Image.asset(
-                "images/flag.png",
-                width: 250,
-                height: 180,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(14.4),
-                    border: Border.all(
-                        color: Colors.blueGrey.shade400,
-                        style: BorderStyle.solid)),
-                height: 120.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Center(
-                      child: Text(
-                    questionBank[2].questionText,
-                    style: TextStyle(fontSize: 16.9, color: Colors.white),
-                  )),
+      body: Builder(
+
+        builder:(BuildContext context) => Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Image.asset(
+                  "images/flag.png",
+                  width: 250,
+                  height: 180,
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () => _checkAnswer(),
-                  color: Colors.blueGrey.shade900,
-                  child: Text(
-                    "TRUE",
-                    style: TextStyle(color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(14.4),
+                      border: Border.all(
+                          color: Colors.blueGrey.shade400,
+                          style: BorderStyle.solid)),
+                  height: 120.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Center(
+                        child: Text(
+                      questionBank[_currentQuestionIndex].questionText,
+                      style: TextStyle(fontSize: 16.9, color: Colors.white),
+                    )),
                   ),
                 ),
-                RaisedButton(
-                  onPressed: () => _checkAnswer(),
-                  color: Colors.blueGrey.shade900,
-                  child: Text(
-                    "FALSE",
-                    style: TextStyle(color: Colors.white),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () => _preQuestion(),
+                    color: Colors.blueGrey.shade900,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                RaisedButton(
-                  onPressed: () => _checkAnswer(),
-                  color: Colors.blueGrey.shade900,
-                  child:Icon(Icons.arrow_forward, color: Colors.white,),
-                )
-              ],
-            ),
-            Spacer(),
-          ],
+                  RaisedButton(
+                    onPressed: () => _checkAnswer(true, context),
+                    color: Colors.blueGrey.shade900,
+                    child: Text(
+                      "TRUE",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: () => _checkAnswer(false,context),
+                    color: Colors.blueGrey.shade900,
+                    child: Text(
+                      "FALSE",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: () => _nextQuestion(),
+                    color: Colors.blueGrey.shade900,
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                ],
+              ),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  _nextQuestion() {
+    setState(() {
+      _currentQuestionIndex = (_currentQuestionIndex + 1) % questionBank.length;
+    });
+  }
+
+  _checkAnswer(bool userChoice, BuildContext context) {
+    if (userChoice == questionBank[_currentQuestionIndex].isCorrect) {
+      final snackbar = SnackBar(backgroundColor:Colors.green,duration: Duration(milliseconds: 500),content: Text("Currect"));
+      Scaffold.of(context).showSnackBar(snackbar);
+      debugPrint("true");
+    } else {
+      final snackbar = SnackBar(backgroundColor:Colors.redAccent,duration:Duration(milliseconds: 500),content: Text("Incurrect"));
+      Scaffold.of(context).showSnackBar(snackbar);
+       debugPrint("false");
+    }
+    _nextQuestion();
+  }
+  _preQuestion() {
+    setState(() {
+      _currentQuestionIndex = (_currentQuestionIndex - 1) % questionBank.length;
+    });
+  }
 }
 
-_checkAnswer() {}
+
 
 class BillSplitter extends StatefulWidget {
   @override
