@@ -1,6 +1,138 @@
+import 'package:bizcard/model/movie.dart';
 import 'package:bizcard/model/question.dart';
 import 'package:bizcard/util/hexcolor.dart';
 import 'package:flutter/material.dart';
+
+import 'movie_ui/movie_ui.dart';
+
+class MovieListView extends StatelessWidget {
+  final List<Movies> listMovies = Movies.getMovies();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text("Movies")),
+        backgroundColor: Colors.blueGrey.shade900,
+      ),
+      backgroundColor: Colors.blueGrey.shade900,
+      body: ListView.builder(
+          itemCount: listMovies.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Stack(
+              children: <Widget>[
+                movieCard(listMovies[index], context),
+                Positioned(
+                    top: 10.0, child: movieImage(listMovies[index].image[0]))
+              ],
+            );
+          }),
+    );
+  }
+
+  Widget movieCard(Movies movies, BuildContext context) {
+    return InkWell(
+        child: Container(
+          margin: EdgeInsets.only(left: 60.0),
+          width: MediaQuery.of(context).size.width,
+          height: 120.0,
+          child: Card(
+            color: Colors.black45,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 40.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            "${movies.title}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0,
+                                color: Colors.white),
+                          ),
+                        ),
+                        Text(
+                          "Rating: ${movies.imbdRating}/10",
+                          style: mainTextStyle(),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text("Release: ${movies.released}",
+                            style: mainTextStyle()),
+                        Text(movies.runtime, style: mainTextStyle()),
+                        Text(movies.rated, style: mainTextStyle())
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MovieListViewDetails(movie: movies)));
+        });
+  }
+
+  TextStyle mainTextStyle() {
+    return TextStyle(fontSize: 12.0, color: Colors.grey);
+  }
+
+  Widget movieImage(String imageUrl) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+              image: NetworkImage(imageUrl ?? Icon(Icons.movie)),
+              fit: BoxFit.cover)),
+    );
+  }
+}
+
+class MovieListViewDetails extends StatelessWidget {
+  final Movies movie;
+
+  const MovieListViewDetails({Key key, this.movie}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Movies"),
+        backgroundColor: Colors.blueGrey.shade900,
+      ),
+      body: ListView(
+        children: <Widget>[
+          MovieDetailsThumbnail(
+            thumbnail: movie.image[0],
+          ),
+          MovieDetailHeaderWithPoster(movie: movie),
+          HorizontalLine(),
+          MovieDetailsCast(movie: movie),
+          HorizontalLine(),
+          MovieDetailExtractPoster(posterImage: movie.image,)
+        ],
+      ),
+    );
+  }
+}
+
+
 
 class QuizApp extends StatefulWidget {
   @override
@@ -42,8 +174,7 @@ class _QuizAppState extends State<QuizApp> {
       ),
       backgroundColor: Colors.blueGrey,
       body: Builder(
-
-        builder:(BuildContext context) => Container(
+        builder: (BuildContext context) => Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -94,7 +225,7 @@ class _QuizAppState extends State<QuizApp> {
                     ),
                   ),
                   RaisedButton(
-                    onPressed: () => _checkAnswer(false,context),
+                    onPressed: () => _checkAnswer(false, context),
                     color: Colors.blueGrey.shade900,
                     child: Text(
                       "FALSE",
@@ -109,7 +240,6 @@ class _QuizAppState extends State<QuizApp> {
                       color: Colors.white,
                     ),
                   ),
-
                 ],
               ),
               Spacer(),
@@ -128,24 +258,29 @@ class _QuizAppState extends State<QuizApp> {
 
   _checkAnswer(bool userChoice, BuildContext context) {
     if (userChoice == questionBank[_currentQuestionIndex].isCorrect) {
-      final snackbar = SnackBar(backgroundColor:Colors.green,duration: Duration(milliseconds: 500),content: Text("Currect"));
+      final snackbar = SnackBar(
+          backgroundColor: Colors.green,
+          duration: Duration(milliseconds: 500),
+          content: Text("Currect"));
       Scaffold.of(context).showSnackBar(snackbar);
       debugPrint("true");
     } else {
-      final snackbar = SnackBar(backgroundColor:Colors.redAccent,duration:Duration(milliseconds: 500),content: Text("Incurrect"));
+      final snackbar = SnackBar(
+          backgroundColor: Colors.redAccent,
+          duration: Duration(milliseconds: 500),
+          content: Text("Incurrect"));
       Scaffold.of(context).showSnackBar(snackbar);
-       debugPrint("false");
+      debugPrint("false");
     }
     _nextQuestion();
   }
+
   _preQuestion() {
     setState(() {
       _currentQuestionIndex = (_currentQuestionIndex - 1) % questionBank.length;
     });
   }
 }
-
-
 
 class BillSplitter extends StatefulWidget {
   @override
