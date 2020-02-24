@@ -1,3 +1,4 @@
+import 'package:bizcard/json_parsing/json_parsing.dart';
 import 'package:bizcard/ui/home.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,7 @@ TextTheme _textTheme(TextTheme base) {
 
 
 void main() => runApp(new MaterialApp(
-  theme: _appTheme,
+ // theme: _appTheme,
   /*ThemeData(
     brightness: Brightness.dark,
     primaryColor: Colors.grey[800],
@@ -62,7 +63,7 @@ void main() => runApp(new MaterialApp(
     ),
   ),*/
 
-  home: QuizApp(),
+  home: JsonParsingSimple(),
 ));
 
 
