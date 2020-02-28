@@ -1,4 +1,5 @@
 import 'package:bizcard/json_parsing/json_parsing.dart';
+import 'package:bizcard/json_parsing/json_parsing_map.dart';
 import 'package:bizcard/ui/home.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ void main() => runApp(new MaterialApp(
     ),
   ),*/
 
-  home: JsonParsingSimple(),
+  home: JsonParsingMap(),
 ));
 
 
