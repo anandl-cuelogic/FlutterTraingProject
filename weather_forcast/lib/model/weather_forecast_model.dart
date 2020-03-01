@@ -119,15 +119,15 @@ class Main {
         this.tempKf});
 
   Main.fromJson(Map<String, dynamic> json) {
-    temp = json['temp'];
-    feelsLike = json['feels_like'];
-    tempMin = json['temp_min'];
-    tempMax = json['temp_max'];
+    temp = json['temp'].toDouble();
+    feelsLike = json['feels_like'].toDouble();
+    tempMin = json['temp_min'].toDouble();
+    tempMax = json['temp_max'].toDouble();
     pressure = json['pressure'];
     seaLevel = json['sea_level'];
     grndLevel = json['grnd_level'];
     humidity = json['humidity'];
-    tempKf = json['temp_kf'];
+    tempKf = json['temp_kf'].toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -193,7 +193,7 @@ class Wind {
   Wind({this.speed, this.deg});
 
   Wind.fromJson(Map<String, dynamic> json) {
-    speed = json['speed'];
+    speed = json['speed'].toDouble();
     deg = json['deg'];
   }
 
