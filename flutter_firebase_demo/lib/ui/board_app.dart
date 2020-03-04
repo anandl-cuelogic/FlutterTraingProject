@@ -42,7 +42,7 @@ class _BoardAppState extends State<BoardApp> {
             return ListView.builder(
                 itemCount: snapshots.data.documents.length,
                 itemBuilder: (context, int index){
-                 return Text(snapshots.data.documents[index]['descriotion'].toString());
+                 return Text(snapshots.data.documents[index]['description'].toString());
             });
 
       }),
@@ -81,6 +81,39 @@ class _BoardAppState extends State<BoardApp> {
            ),)
          ],
        ),
+
+       actions: <Widget>[
+         FlatButton(onPressed: (){
+           nameInputController.clear();
+           titleInputController.clear();
+           descriptionInputController.clear();
+           Navigator.pop(context);
+         },
+         child: Text("Cancel"),),
+
+         FlatButton(onPressed: (){
+            if(nameInputController.text.isNotEmpty && titleInputController.text.isNotEmpty
+                && descriptionInputController.text.isNotEmpty) {
+                 Firestore.instance.collection("board")
+                     .add({
+                       "name" : nameInputController.text,
+                       "title" : titleInputController.text,
+                       "description": descriptionInputController.text,
+                       "timestame" : new DateTime.now()
+
+                 }).then((response){
+                     print(response.documentID);
+                     Navigator.pop(context);
+                     nameInputController.clear();
+                     titleInputController.clear();
+                     descriptionInputController.clear();
+                 }).catchError((onError) => print(onError));
+            }else {
+
+            }
+         },
+         child: Text("Save"),)
+       ],
      ));
   }
 }
